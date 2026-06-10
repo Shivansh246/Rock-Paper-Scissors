@@ -9,58 +9,52 @@ function getComputerChoice(){
     }
 }
 
-function getHumanChoice(){
-    return prompt('Enter your choice: ').toLowerCase();
-}
-
 function playRound(humanChoice,computerChoice){
+    rounds++;
+    let comp_output = document.querySelector(".comp-choice");
+    comp_output.textContent = "Computer Chose: "+computerChoice;
     console.log('You chose: '+humanChoice+' Computer chose: '+computerChoice);
-    if(humanChoice=='rock'){
-        if(computerChoice=='paper'){
-            computerScore++;
-            console.log('paper beats rock');
-        }else if(computerChoice=='scissors'){
-            humanScore++;
-            console.log('rock beats scissors');
-        }else{
-            console.log("It's a draw!");
-        }
-    }else if(humanChoice=='paper'){
-        if(computerChoice=='scissors'){
-            computerScore++;
-            console.log('scissors beats paper');
-        }else if(computerChoice=='rock'){
-            humanScore++;
-            console.log('paper beats rock');
-        }else{
-            console.log("It's a draw!");
-        }
-    }else{
-        if(computerChoice=='rock'){
-            computerScore++;
-            console.log('rock beats scissors');
-        }else if(computerChoice=='paper'){
-            humanScore++;
-            console.log('scissors beats paper');
-        }else{
-            console.log("It's a draw!");
-        }
+    if (humanChoice === computerChoice) {
+     console.log("It's a draw!");
+    }
+    else if (
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "paper" && computerChoice === "rock") ||
+        (humanChoice === "scissors" && computerChoice === "paper")
+    ) {
+        humanScore++;
+        console.log(`${humanChoice} beats ${computerChoice}`);
+    }
+    else {
+        computerScore++;
+        console.log(`${computerChoice} beats ${humanChoice}`);
     }
     console.log('\n');
-}
-function playGame(){
-    for(let i=0;i<5;i++){
-        playRound(getHumanChoice(),getComputerChoice());
-    }
-    if(computerScore>humanScore){
-        console.log('Computer Wins');
-    }else if(computerScore<humanScore){
-        console.log('You win');
-    }else{
-        console.log("The game is drawn");
+
+    if(rounds!=0 && rounds%5==0){
+        let final_result = document.querySelector(".result-output");
+        let won = computerScore>humanScore?"computer":"you";
+        final_result.textContent = won+" won by "+ Math.abs(computerScore-humanScore)+". Next round started!";
     }
 }
+
 let humanScore=0;
 let computerScore=0;
-playGame();
+
+let btn_rock = document.querySelector(".rock-button");
+let btn_paper = document.querySelector(".paper-button");
+let btn_sci = document.querySelector(".scissors-button");
+
+let rounds = 0
+
+btn_rock.addEventListener('click',()=>{
+    playRound('rock',getComputerChoice());
+});
+btn_paper.addEventListener('click',()=>{
+    playRound('paper',getComputerChoice());
+});
+btn_sci.addEventListener('click',()=>{
+    playRound('scissors',getComputerChoice());
+});
+
 
